@@ -22,8 +22,8 @@ This project demonstrates the implementation of the latest Spring Security mecha
 #### Clone the Repository
 
 ```sh
-git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/abdelmottalib/Spring-boot-Jwt-Email-Authentication
+cd Spring-boot-Jwt-Email-Authentication
 ```
 
 #### Configure Application Properties
