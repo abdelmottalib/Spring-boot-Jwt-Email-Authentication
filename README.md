@@ -57,7 +57,7 @@ The application will start on [http://localhost:8088](http://localhost:8088).
 - **Authenticate**: `POST api/v1/auth/authenticate`
 - **Activate Account**: `GET api/v1/auth/activate-account`
 - **Logout**: `POST api/v1/auth/logout`
-- - **movies**: `POST api/v1/movies`  #Test endpoint to test if the endpoint is working
+- **movies**: `POST api/v1/movies`  #Test endpoint to test if the endpoint is working
 
 ## Project Structure
 
