@@ -1,13 +1,14 @@
 package com.konami.bookSocial.security;
 
 
+import com.konami.bookSocial.auth.TokenBlacklistService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.net.http.HttpHeaders;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -26,6 +26,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
         private final JwtService jwtService;
+        private final TokenBlacklistService tokenBlacklistService;
         private final UserDetailsService userDetailsService;
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -37,16 +38,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String jwt;
         final String email;
 
-        System.out.println("Request jwtFilter *************************************************");
-        System.out.println("Request Path: " + request.getServletPath());
         if (request.getServletPath().contains("/auth")) {
-            System.out.println("Request to /api/v1/auth *************************************************");
             filterChain.doFilter(request, response);
             return;
         } else {
-            System.out.println("entered else *************************************************");
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 jwt = authorizationHeader.substring(7);
+                if (tokenBlacklistService.isTokenBlacklisted(jwt)) {
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    return;
+                }
                 email = jwtService.extractUsername(jwt);
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = userDetailsService.loadUserByUsername(email);

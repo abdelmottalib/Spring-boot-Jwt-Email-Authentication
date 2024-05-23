@@ -21,7 +21,6 @@ public class AuthenticationController {
     public ResponseEntity<?> register(
             @RequestBody @Valid RegisterRequest registerRequest
     ) throws MessagingException {
-        System.out.println("Registering user");
         authenticationService.register(registerRequest);
         return ResponseEntity.accepted().build();
     }
@@ -29,12 +28,15 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody @Valid AuthenticationRequest authenticationRequest
     ) {
-        System.out.println("Authenticating user");
         return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
     }
     @GetMapping("/activate-account")
     public void confirm(@RequestParam String token) throws MessagingException {
-        System.out.println("Activating account");
         authenticationService.activateAccount(token);
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody @Valid LogoutRequest logoutRequest) {
+        authenticationService.logout(logoutRequest.getToken());
+        return ResponseEntity.ok().build();
     }
 }

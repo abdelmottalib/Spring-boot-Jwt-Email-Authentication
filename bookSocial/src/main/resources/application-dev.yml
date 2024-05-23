@@ -34,5 +34,8 @@ spring:
       jwt:
         secret-key: mPv1T3BpZeG+3bRfOVJkQWEfHVnPuKzJeU4aN1MG+Bo=
         expiration: 86400000
+    file:
+      upload:
+        photos-output-path: ./uploads
 server:
   port: 8088

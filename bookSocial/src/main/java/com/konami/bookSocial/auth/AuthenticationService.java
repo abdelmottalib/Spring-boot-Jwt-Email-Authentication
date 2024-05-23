@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +34,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
     private final JwtService jwtService;
+    private final TokenBlacklistService tokenBlacklistService;
     String activationUrl = "http://localhost:4200/activate-account";
 
     public void register(RegisterRequest registerRequest) throws MessagingException {
@@ -114,5 +117,9 @@ public class AuthenticationService {
         userRepository.save(user);
         savedToken.setValidatedAt(LocalDateTime.now());
         tokenRepository.save(savedToken);
+    }
+
+    public void logout(String token) {
+        tokenBlacklistService.blacklistToken(token);
     }
 }
