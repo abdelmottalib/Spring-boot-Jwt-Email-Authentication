@@ -1,4 +1,4 @@
-package com.konami.bookSocial;
+package com.konami.Auth;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
