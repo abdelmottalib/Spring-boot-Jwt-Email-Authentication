@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MoviesController {
     @GetMapping("/movies")
     public String getMovies() {
-        return "Movies";
+        return "You have successfully accessed the movies endpoint!";
     }
 }

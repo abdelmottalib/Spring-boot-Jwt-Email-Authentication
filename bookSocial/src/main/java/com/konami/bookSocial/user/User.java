@@ -4,16 +4,12 @@ package com.konami.bookSocial.user;
 import com.konami.bookSocial.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +21,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Entity
 @Table(name = "_user")
-@EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Principal {
     @Id
     @GeneratedValue
@@ -38,13 +33,6 @@ public class User implements UserDetails, Principal {
     private String password;
     private boolean enabled;
     private boolean accountLocked;
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalTime createdDate;
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalTime lastModifiedDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;

@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponse> handlerEException(MethodArgumentNotValidException exp) {
-        Set<String> errors = new HashSet<>(); //if black and empty it throw the same errors we use set to make it unique
+        Set<String> errors = new HashSet<>(); //if blank and empty it throw the same errors we use set to make it unique
         exp.getBindingResult().getAllErrors().forEach(error -> errors.add(error.getDefaultMessage()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 ExceptionResponse.builder()
